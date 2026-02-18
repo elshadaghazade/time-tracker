@@ -10,6 +10,10 @@ If you have any questions, suggestions, or collaboration ideas, feel free to rea
 
 ---
 
+## GPT prompt session history
+
+[https://chatgpt.com/share/699598f0-4d68-800e-a04a-e5e1f933943d](https://chatgpt.com/share/699598f0-4d68-800e-a04a-e5e1f933943d)
+
 A simple time tracking app built with **Next.js (App Router)** + **Prisma** + **PostgreSQL**.
 
 ## Requirements
