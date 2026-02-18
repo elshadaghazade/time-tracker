@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Task — Time Tracker
 
-## Getting Started
+## Author
 
-First, run the development server:
+**Elshad Aghayev**  
+📧 Email: elshadaghazade@gmail.com  
+📱 Phone: +48 721 668 065  
+
+If you have any questions, suggestions, or collaboration ideas, feel free to reach out.
+
+---
+
+A simple time tracking app built with **Next.js (App Router)** + **Prisma** + **PostgreSQL**.
+
+## Requirements
+
+- **Node.js 20+**
+- **Docker** + **Docker Compose**
+- (Optional) `pnpm` / `npm` / `yarn` — examples below use **npm**
+
+---
+
+## 1) Start PostgreSQL (Docker)
+
+This project includes a `docker-compose.yaml` in the repository root.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up -d
+docker compose ps
+docker compose down
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configure environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the example env file:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+cp .env.example .env
+```
 
-## Learn More
+Update ```.env``` if needed:
 
-To learn more about Next.js, take a look at the following resources:
+```
+DATABASE_URL="postgres://[username]:[password]@[host]:5432/task"
+DEFAULT_USER_ID=1
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **DATABASE_URL** must match your Docker Postgres credentials and port.
+- **DEFAULT_USER_ID** is used by the API to create/find a local dev user automatically.
 
-## Deploy on Vercel
+## Install dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+npm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Prisma / Database setup
+
+```
+npx prisma generate
+npm run db:migrate
+
+```
+
+## Run the app
+
+Start dev server:
+
+```
+npm run dev
+```
+
+Open:
+
+- [http://localhost:3000](http://localhost:3000)
+
+
+## Useful commands
+
+- Start dev server: ```npm run dev```
+- Build production: ```npm run build```
+- Start production: ```npm run start```
+- Lint: ```npm run lint```
+- Prisma Studio (DB UI):
+    ```
+    npx prisma studio
+    ```
+
+
+## Troubleshooting
+
+### “Missing user. Provide x-user-id header or set DEFAULT_USER_ID”
+
+Make sure ```.env``` contains:
+
+```
+DEFAULT_USER_ID=1
+```
+
+
+### “Cannot connect to database”
+
+- Check Docker is running: docker compose ps
+- Confirm Postgres host/port in DATABASE_URL
+- If Postgres is exposed on localhost, typical host is localhost
+
+Example (common default):
+
+```
+DATABASE_URL="postgres://postgres:postgres@localhost:5432/task"
+```
+
+### Prisma client errors
+
+Regenerate client:
+
+```
+npx prisma generate
+```

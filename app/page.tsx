@@ -1,65 +1,112 @@
-import Image from "next/image";
+import Link from "next/link";
+
+type NavCard = {
+  title: string;
+  description: string;
+  href: string;
+  badge?: string;
+};
+
+const cards: NavCard[] = [
+  {
+    title: "Time Tracker",
+    description: "Start/stop timers and save entries to the database.",
+    href: "/time-tracker",
+    badge: "Timer",
+  },
+  {
+    title: "Task Management",
+    description: "Edit today’s entries: task name, project, and time (hh:mm).",
+    href: "/tasks",
+    badge: "Today",
+  },
+  {
+    title: "Project Management",
+    description: "Create projects, edit names, and assign colors.",
+    href: "/projects",
+    badge: "Colors",
+  },
+  {
+    title: "Reports",
+    description: "Day / week / month reports with CSV export.",
+    href: "/reports",
+    badge: "CSV",
+  },
+];
+
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white px-4 py-10 sm:px-6">
+      <div className="mx-auto w-full max-w-5xl">
+        {/* Header */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+              Time Tracker Dashboard
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600">
+              Track time, manage projects, edit daily tasks, and export reports — all in one place.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+            <div className="text-xs text-slate-500">Quick start</div>
+            <div className="mt-1 text-sm font-semibold text-slate-900">
+              Start with <Link href={'/time-tracker'} className="underline decoration-slate-300 underline-offset-4">Time Tracker</Link>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* Cards */}
+        <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {cards.map((c) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className={cx(
+                "group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition",
+                "hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md",
+                "focus:outline-none focus:ring-4 focus:ring-slate-100"
+              )}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-lg font-semibold text-slate-900">{c.title}</div>
+                  <div className="mt-1 text-sm text-slate-600">{c.description}</div>
+                </div>
+
+                {c.badge && (
+                  <span className="shrink-0 rounded-2xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700">
+                    {c.badge}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-xs text-slate-500">{c.href}</span>
+                <span className="text-sm font-medium text-slate-900 transition group-hover:translate-x-0.5">
+                  Open →
+                </span>
+              </div>
+            </Link>
+          ))}
+        </section>
+
+        {/* Footer */}
+        <footer className="mt-10 flex flex-col gap-2 rounded-3xl border border-slate-200 bg-white p-5 text-sm text-slate-600 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="font-medium text-slate-900">Tip:</span>{" "}
+            Use <span className="font-medium">DEFAULT_USER_ID</span> in `.env` for local dev.
+          </div>
+          <div className="text-xs text-slate-500">
+            Routes: /time-tracker • /tasks • /projects • /reports
+          </div>
+        </footer>
+      </div>
+    </main>
   );
 }
